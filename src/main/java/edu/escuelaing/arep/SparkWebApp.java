@@ -23,13 +23,14 @@ import spark.Response;
  */
 public class SparkWebApp {
 
-    private static final String url= "https://cdm199hrs5.execute-api.us-east-1.amazonaws.com/beta?value=";
+    private static final String url = "https://3d7xiohuc0.execute-api.us-east-1.amazonaws.com/beta?value=";
     private final static CloseableHttpClient httpClient = HttpClients.createDefault();
-    public static void main( String[] args) {
+
+    public static void main(String[] args) {
         port(getPort());
-        //get("/", (req, res) -> inputDataPage(req, res));
+        // get("/", (req, res) -> inputDataPage(req, res));
         get("/", SparkWebApp::inputDataPage);
-        //get("/results", (req, res) -> resultsPage(req, res));
+        // get("/results", (req, res) -> resultsPage(req, res));
         get("/results", SparkWebApp::resultsPage);
     }
 
@@ -38,19 +39,19 @@ public class SparkWebApp {
      * @param res tipo Response
      * @return pageContent contenido html de la pagina
      */
-    public static String inputDataPage( Request req,  Response res) {
-         String pageContent = "<!DOCTYPE html>" + "<html>" + "<body>" + "<h1>Calculate Square</h1>"
-                + "<p>Ingresar numero</p>" + "<form action=\"/results\">"
-                + "  Datos a ingresar:<br>" + "  <input type=\"number\" name=\"numero\" placeholder=\"0\">" + "  <br>"
+    public static String inputDataPage(Request req, Response res) {
+        String pageContent = "<!DOCTYPE html>" + "<html>" + "<body>" + "<h1>Calculate Square</h1>"
+                + "<p>Ingresar numero</p>" + "<form action=\"/results\">" + "  Datos a ingresar:<br>"
+                + "  <input type=\"number\" name=\"numero\" placeholder=\"0\">" + "  <br>"
                 + "  <input type=\"submit\" value=\"Calcular\">" + "</form>" + "</body>" + "</html>";
         return pageContent;
     }
 
-    public static String resultsPage (Request req,  Response res){
+    public static String resultsPage(Request req, Response res) {
         String ress;
         try {
             ress = getResult(req.queryParams("numero"));
-            String pageContent ="<html><body><h1>Result<h1>"+ress+"</body></html>";
+            String pageContent = "<html><body><h1>Result<h1><h2>" + ress + "</h2></body></html>";
             return pageContent;
         } catch (ParseException e) {
             // TODO Auto-generated catch block
@@ -59,12 +60,12 @@ public class SparkWebApp {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        String pageContent ="<html><body><h1>Result<h1>"+"</body></html>";
+        String pageContent = "<html><body><h1>Result<h1>" + "</body></html>";
         return pageContent;
     }
 
-    public static String getResult(String number) throws ParseException, IOException{
-        HttpGet request = new HttpGet(url+number);
+    public static String getResult(String number) throws ParseException, IOException {
+        HttpGet request = new HttpGet(url + number);
         try (CloseableHttpResponse response = httpClient.execute(request)) {
 
             // Get HttpResponse Status
